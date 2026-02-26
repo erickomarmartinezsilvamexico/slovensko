@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carlos Mendoza | Fotografía de Bodas y Retratos</title>
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --bg-soft: #17171d;
+      --surface: #1f1f27;
+      --text: #f5f5f7;
+      --text-muted: #b6b8c3;
+      --primary: #d4a35f;
+      --primary-strong: #b9863f;
+      --border: #2f313c;
+      --success: #2ecc71;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 5rem 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 2.2rem;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(120deg, rgba(8, 8, 12, 0.9), rgba(15, 15, 20, 0.65)),
+        url("https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1800&q=80") center/cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(212, 163, 95, 0.18), transparent 45%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 780px;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: #dddddf;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.85rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #1a1a1a;
+    }
+
+    .btn-secondary {
+      border-color: #ffffff55;
+      background: #ffffff12;
+      backdrop-filter: blur(4px);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-strong);
+    }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+
+    .gallery-item {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-height: 220px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    .gallery-item:hover::before {
+      opacity: 1;
+    }
+
+    .gallery-item:nth-child(1) { grid-column: span 4; }
+    .gallery-item:nth-child(2) { grid-column: span 4; }
+    .gallery-item:nth-child(3) { grid-column: span 4; }
+    .gallery-item:nth-child(4) { grid-column: span 6; }
+    .gallery-item:nth-child(5) { grid-column: span 3; }
+    .gallery-item:nth-child(6) { grid-column: span 3; }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .service-card {
+      background: linear-gradient(160deg, #1c1c24, #16161d);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.6rem;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: #d4a35f80;
+    }
+
+    .service-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .service-card ul {
+      list-style: none;
+      display: grid;
+      gap: 0.45rem;
+      color: var(--text-muted);
+    }
+
+    .service-card li::before {
+      content: "✓";
+      color: var(--success);
+      margin-right: 0.5rem;
+    }
+
+    /* Testimonials */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .testimonial {
+      padding: 1.4rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .testimonial p {
+      color: #e3e3e7;
+      margin-bottom: 0.9rem;
+      font-style: italic;
+    }
+
+    .testimonial h4 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .testimonial span {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    /* Contact */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.2rem;
+      align-items: stretch;
+    }
+
+    .contact-card,
+    .contact-form {
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      border-radius: 1rem;
+      padding: 1.6rem;
+    }
+
+    .contact-card p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: grid;
+      gap: 0.6rem;
+      color: #e8e8eb;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      border: 1px solid #373a48;
+      background: #111119;
+      color: var(--text);
+      border-radius: 0.7rem;
+      padding: 0.75rem 0.85rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #d4a35f;
+      box-shadow: 0 0 0 3px #d4a35f30;
+    }
+
+    .contact-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    footer {
+      padding: 2rem 0 2.6rem;
+      text-align: center;
+      color: var(--text-muted);
+      border-top: 1px solid #282a35;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 960px) {
+      .services-grid,
+      .testimonials-grid,
+      .contact-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item:nth-child(n) {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .section {
+        padding: 3.6rem 0;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-item:nth-child(n) {
+        grid-column: span 1;
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="inicio">
+    <div class="hero-content container">
+      <h1>Carlos Mendoza<br />Fotografía de Bodas y Retratos</h1>
+      <p>Capturo emociones reales con un estilo elegante, íntimo y atemporal para que revivas tus momentos más importantes una y otra vez.</p>
+      <div class="hero-cta">
+        <a href="#contacto" class="btn btn-primary">Reservar Sesión</a>
+        <a href="#galeria" class="btn btn-secondary">Ver Portafolio</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="galeria">
+      <div class="container">
+        <h2 class="section-title">Galería destacada</h2>
+        <p class="section-subtitle">Una selección de bodas y retratos que cuentan historias auténticas, con luz cuidada y dirección artística personalizada.</p>
+        <div class="gallery-grid">
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80" alt="Pareja de novios abrazados en una ceremonia" /></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80" alt="Retrato de novia con ramo" /></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80" alt="Retrato femenino en luz natural" /></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1200&q=80" alt="Novios caminando al atardecer" /></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80" alt="Retrato masculino editorial" /></figure>
+          <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80" alt="Pareja en sesión de compromiso" /></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicios">
+      <div class="container">
+        <h2 class="section-title">Servicios y precios</h2>
+        <p class="section-subtitle">Paquetes pensados para adaptarse a tu historia. Todos incluyen edición profesional y entrega en galería privada online.</p>
+        <div class="services-grid">
+          <article class="service-card">
+            <h3>Boda Esencial</h3>
+            <p class="price">$850</p>
+            <ul>
+              <li>6 horas de cobertura</li>
+              <li>1 fotógrafo principal</li>
+              <li>250 fotos editadas</li>
+              <li>Entrega en 15 días</li>
+            </ul>
+          </article>
+          <article class="service-card">
+            <h3>Boda Premium</h3>
+            <p class="price">$1,450</p>
+            <ul>
+              <li>10 horas de cobertura</li>
+              <li>2 fotógrafos</li>
+              <li>500 fotos editadas</li>
+              <li>Mini sesión preboda</li>
+            </ul>
+          </article>
+          <article class="service-card">
+            <h3>Retrato Profesional</h3>
+            <p class="price">$280</p>
+            <ul>
+              <li>Sesión de 90 minutos</li>
+              <li>2 cambios de vestuario</li>
+              <li>25 fotos retocadas</li>
+              <li>Asesoría de poses</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="testimonios">
+      <div class="container">
+        <h2 class="section-title">Testimonios</h2>
+        <p class="section-subtitle">Lo que opinan las parejas y clientes que confiaron en Carlos Mendoza.</p>
+        <div class="testimonials-grid">
+          <article class="testimonial">
+            <p>“Carlos logró capturar cada emoción de nuestra boda. Las fotos son arte puro y nos hicieron llorar de felicidad.”</p>
+            <h4>Ana y Roberto</h4>
+            <span>Boda en Querétaro</span>
+          </article>
+          <article class="testimonial">
+            <p>“Me sentí cómoda durante toda la sesión de retrato. El resultado superó totalmente mis expectativas.”</p>
+            <h4>Lucía Hernández</h4>
+            <span>Retrato personal</span>
+          </article>
+          <article class="testimonial">
+            <p>“Profesional, puntual y con una sensibilidad increíble para contar historias a través de imágenes.”</p>
+            <h4>Mariana y José</h4>
+            <span>Boda destino</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contacto">
+      <div class="container contact-wrap">
+        <article class="contact-card">
+          <h2 class="section-title">Hablemos de tu sesión</h2>
+          <p>Completa el formulario y recibirás una propuesta personalizada en menos de 24 horas.</p>
+          <ul class="contact-list">
+            <li>Email: hola@carlosmendozafoto.com</li>
+            <li>WhatsApp: +52 55 1234 5678</li>
+            <li>Instagram: @carlosmendozafoto</li>
+            <li>Disponible en México y destinos internacionales</li>
+          </ul>
+        </article>
+
+        <form class="contact-form" aria-label="Formulario de contacto">
+          <input type="text" name="nombre" placeholder="Tu nombre" required />
+          <input type="email" name="email" placeholder="Tu correo electrónico" required />
+          <input type="text" name="evento" placeholder="Tipo de sesión o evento" required />
+          <textarea name="mensaje" placeholder="Cuéntame sobre tu idea, fecha y ubicación" required></textarea>
+          <button type="submit" class="btn btn-primary">Enviar consulta</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Carlos Mendoza Fotografía · Bodas & Retratos</p>
+    </div>
+  </footer>
+</body>
+</html>
